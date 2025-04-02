@@ -45,5 +45,19 @@ public class ClientController {
 
     }
 
+    @DeleteMapping("/delete/{numId}")
+    public ResponseEntity<ResponseDto> deleteClient(@PathVariable Long numId) {
+        ResponseDto responseDto = new ResponseDto();
+        try {
+            clientService.deleteClient(numId);  // Eliminar el cliente con el numId
+            responseDto.setMessage("Cliente eliminado exitosamente");
+            responseDto.setStatusCode(200);
+            return ResponseEntity.ok(responseDto);
+        } catch (ServiceException e) {
+            responseDto.setMessage(e.getMessage());
+            responseDto.setStatusCode(400);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
+        }
+    }
 
 }

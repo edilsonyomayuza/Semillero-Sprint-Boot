@@ -1,8 +1,13 @@
 package com.example.Semillero.model;
 
-import lombok.Data;
+//import lombok.Data;
 
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
+//@Data
+@Getter
+@Setter
 public class ClientDto {
 
     private long numId;

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ClientServiceImpl implements IClientService{
 
@@ -42,6 +44,22 @@ public class ClientServiceImpl implements IClientService{
         ClientEntity client = mapper.clientMapper(clientDto);
         clientRepository.save(client);
 
+    }
+
+    @Override
+    public void deleteClient(Long numId) throws ServiceException {
+        if (numId == null) {
+            throw new ServiceException(400, "ID del cliente no puede ser nulo");
+        }
+
+        // Buscar el cliente en la base de datos
+        Optional<ClientEntity> clientOptional = clientRepository.findById(numId);
+
+        if (clientOptional.isEmpty()) {
+            throw new ServiceException(404, "Cliente no encontrado con ID: " + numId);
+        }
+
+        clientRepository.delete(clientOptional.get());
     }
 
 }
