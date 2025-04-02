@@ -60,4 +60,22 @@ public class ClientController {
         }
     }
 
+    @PatchMapping ("/updatePartial/{numId}")
+    public ResponseEntity<ResponseDto> updateClient(@PathVariable Long numId, @RequestBody ClientDto clientDto){
+        try {
+            clientService.updatePartialClient(numId, clientDto);
+            responseDto.setMessage("Cliente actualizado");
+            responseDto.setStatusCode(200);
+            return ResponseEntity.ok(responseDto);
+
+        }catch (ServiceException e){
+            responseDto.setMessage(e.getMessage());
+            responseDto.setStatusCode(e.getStatusCode());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
+        }
+    }
+
+
+
+
 }

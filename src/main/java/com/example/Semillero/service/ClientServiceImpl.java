@@ -17,6 +17,8 @@ public class ClientServiceImpl implements IClientService{
     @Autowired
     private IClientRepository clientRepository;
 
+
+
     private ClientMapper mapper = new ClientMapper();
 
     @Override
@@ -61,5 +63,38 @@ public class ClientServiceImpl implements IClientService{
 
         clientRepository.delete(clientOptional.get());
     }
+
+    @Override
+    public void updatePartialClient(Long numId, ClientDto clientDto) throws ServiceException{
+        Optional<ClientEntity> optionalClient = clientRepository.findById(numId); //busca en bd el cliente con ese ID
+
+        if(optionalClient.isEmpty()){
+            throw new ServiceException(404, "Cliente no encontrado");
+        }
+
+        ClientEntity client = optionalClient.get(); //recupera del objeto optional el ClientEntity
+
+        if(clientDto.getStrIdentificationType() != null){
+            client.setStrIdentificationType(clientDto.getStrIdentificationType());
+            System.out.println(client.getStrIdentificationType());
+        }
+        if(clientDto.getStrIdentification() != null){
+            client.setStrIdentification(clientDto.getStrIdentification());
+            System.out.println(client.getStrIdentification());
+        }
+        if(clientDto.getStrFirstName() != null){
+            client.setStrFirstName(clientDto.getStrFirstName());
+            System.out.println(client.getStrFirstName());
+        }
+        if(clientDto.getStrSecondName() != null){
+            client.setStrSecondName(clientDto.getStrSecondName());
+            System.out.println(client.getStrSecondName());
+        }
+
+
+        clientRepository.save(client);
+    }
+
+
 
 }

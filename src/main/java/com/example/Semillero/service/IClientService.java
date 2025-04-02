@@ -14,4 +14,6 @@ public interface IClientService {
     void saveClient(ClientDto clientDto) throws ServiceException;
 
     void deleteClient(Long numId) throws ServiceException;
+
+    void updatePartialClient(Long numId, ClientDto clientDto) throws ServiceException;
 }
