@@ -17,8 +17,6 @@ public class ClientServiceImpl implements IClientService{
     @Autowired
     private IClientRepository clientRepository;
 
-
-
     private ClientMapper mapper = new ClientMapper();
 
     @Override
@@ -54,7 +52,6 @@ public class ClientServiceImpl implements IClientService{
             throw new ServiceException(400, "ID del cliente no puede ser nulo");
         }
 
-        // Buscar el cliente en la base de datos
         Optional<ClientEntity> clientOptional = clientRepository.findById(numId);
 
         if (clientOptional.isEmpty()) {
@@ -95,6 +92,27 @@ public class ClientServiceImpl implements IClientService{
         clientRepository.save(client);
     }
 
+    @Override
+    public void updateClient(Long numId, ClientDto clientDto) throws ServiceException {
+        if (clientDto == null) {
+            throw new ServiceException(400, "Datos del cliente requeridos");
+        }
+
+        Optional<ClientEntity> existingClientOpt = clientRepository.findById(numId);
+
+        if (existingClientOpt.isEmpty()) {
+            throw new ServiceException(404, "Cliente no encontrado");
+        }
+
+        ClientEntity updatedClient = new ClientEntity();
+        updatedClient.setNumId(numId); // Mantener el mismo ID
+        updatedClient.setStrIdentification(clientDto.getStrIdentification());
+        updatedClient.setStrIdentificationType(clientDto.getStrIdentificationType());
+        updatedClient.setStrFirstName(clientDto.getStrFirstName());
+        updatedClient.setStrSecondName(clientDto.getStrSecondName());
+
+        clientRepository.save(updatedClient);
+    }
 
 
 }

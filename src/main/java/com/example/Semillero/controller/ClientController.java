@@ -47,7 +47,6 @@ public class ClientController {
 
     @DeleteMapping("/delete/{numId}")
     public ResponseEntity<ResponseDto> deleteClient(@PathVariable Long numId) {
-        ResponseDto responseDto = new ResponseDto();
         try {
             clientService.deleteClient(numId);  // Eliminar el cliente con el numId
             responseDto.setMessage("Cliente eliminado exitosamente");
@@ -75,7 +74,19 @@ public class ClientController {
         }
     }
 
-
+    @PutMapping(path = "/updateAll/{numId}")
+    public ResponseEntity<?> updateClientAll(@PathVariable Long numId, @RequestBody ClientDto clientDto) {
+        try {
+            clientService.updateClient(numId, clientDto);
+            responseDto.setMessage("Cliente actualizado");
+            responseDto.setStatusCode(200);
+            return ResponseEntity.ok(responseDto);
+        } catch (ServiceException e) {
+            responseDto.setMessage(e.getMessage());
+            responseDto.setStatusCode(e.getStatusCode());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
+        }
+    }
 
 
 }
