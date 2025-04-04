@@ -6,6 +6,7 @@ import com.example.Semillero.service.IClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import com.example.Semillero.exception.ServiceException;
 
@@ -22,6 +23,7 @@ public class ClientController {
     private ResponseDto responseDto = new ResponseDto();
 
     @PostMapping(path = "/save")
+    @Transactional
     public ResponseEntity<ResponseDto> saveClient(@RequestBody ClientDto clientDto){
         try{
             clientService.saveClient(clientDto);
@@ -46,6 +48,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/delete/{numId}")
+    @Transactional
     public ResponseEntity<ResponseDto> deleteClient(@PathVariable Long numId) {
         try {
             clientService.deleteClient(numId);  // Eliminar el cliente con el numId
@@ -60,6 +63,7 @@ public class ClientController {
     }
 
     @PatchMapping ("/updatePartial/{numId}")
+    @Transactional
     public ResponseEntity<ResponseDto> updateClient(@PathVariable Long numId, @RequestBody ClientDto clientDto){
         try {
             clientService.updatePartialClient(numId, clientDto);
@@ -75,6 +79,7 @@ public class ClientController {
     }
 
     @PutMapping(path = "/updateAll/{numId}")
+    @Transactional
     public ResponseEntity<?> updateClientAll(@PathVariable Long numId, @RequestBody ClientDto clientDto) {
         try {
             clientService.updateClient(numId, clientDto);
@@ -87,6 +92,5 @@ public class ClientController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseDto);
         }
     }
-
 
 }

@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class ClientEntity {
     @Id
+    
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "ID_CLIENT")
     private long numId;
